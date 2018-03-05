@@ -1,5 +1,8 @@
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+
 module.exports = {
-    port: 8081,
+    port: process.env.port || 8081,
     db: {
         database: process.env.DB_NAME || 'songsdatabase',
         user: process.env.DB_USER || 'root',
@@ -7,7 +10,8 @@ module.exports = {
         options: {
             dialect: process.env.DIALECT || 'sqlite',
             host: process.env.HOST || 'localhost',
-            storage: './songsdatabase.sqlite'
+            storage: './songsdatabase.sqlite',
+            operatorsAliases: Op
         }
     }
 }

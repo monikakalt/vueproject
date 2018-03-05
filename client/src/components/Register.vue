@@ -18,7 +18,7 @@ export default {
     }
   },
   watch: {
-    email (value) {
+    email (value)  {
       console.log('email changed', value)
     }
   },
