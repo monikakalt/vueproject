@@ -6,15 +6,28 @@
             <v-toolbar-title>Register</v-toolbar-title>
           </v-toolbar>
 
-            <div class="pl-4 pr-4 pt-2 pb-2">
-              <input type="email" name="email" v-model="email" placeholder="Email"/>
-              <input type="password" name="password" v-model="password" placeholder="Password"/>
+             <v-form  name="register-form" autocomplete="off" >
+                <v-text-field
+                  label="Email"
+                  v-model="email"
+                  :rules="emailRules"
+                  required
+                ></v-text-field>
               <br>
+                <v-text-field
+                  label="Password"
+                  type="password"
+                  v-model="password"
+                  :rules="passwordRules"
+                  required
+                  autocomplete="new-password"
+                ></v-text-field>
+              </v-form>
               <div class="error" v-html="error"></div>
               <br>
-              <v-btn class="cyan" @click="register">Register</v-btn>
+              <v-btn dark class="cyan" @click="register">Register</v-btn>
             </div>
-        </div>
+
     </v-flex>
   </v-layout>
 
@@ -26,31 +39,35 @@ export default {
   data () {
     return {
       email: '',
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
       password: '',
+      passwordRules: [
+        v => !!v || 'Password is required'],
       error: null
     }
   },
   watch: {
-    email (value)  {
+    email (value) {
       console.log('email changed', value)
     }
   },
   methods: {
     async register () {
-      try{
-          await AuthenticationService.register({
+      try {
+        await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
-      }catch (error) {
-          this.error = error.response.data.error
+      } catch (error) {
+        this.error = error.response.data.error
       }
-
     }
   }
 }
 </script>
-
 
 <style scoped>
 .error {
